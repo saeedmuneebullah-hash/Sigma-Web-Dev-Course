@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* The Specificity of this selector is 1 */
+        h1 {
+            color: blue;
+        }
+
+        /* The Specificity of this selector is 1 + 10 = 11*/
+        h1.pink {
+            color: pink;
+        }
+
+        /* The Specificity of this selector is 10 */
+        .cred {
+            color: red;
+        }
+
+        /* The Specificity of this selector is 1 + 10 + 10 + 10 + 10 = 41 */
+        .cpurle {
+            color: purple;
+        }
+
+        /* This is an example of attribute selectors. The Specificity of this selector is 10 */
+        /* [data-x=a]{
+            background-color:cornsilk;
+        } */
+        /* The Specificity of this selector is 10 */
+        a.harryclass.rohan-class[href]:hover {
+            color: rgb(179, 255, 0);
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <h1 style="color:maroon" class="pink cred cpurple">CSS Specificity</h1>
+    </div>
+</body>
+
+</html>
