@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi Color Website</title>
+    <style>
+        /* Base variables (Default theme) */
+        :root {
+            --bg: #ffffff;
+            --fg: #0f1724;
+            --muted: #6b7280;
+            --accent: #2563eb;
+            --card: #f8fafc;
+            --glass: rgba(15, 23, 36, 0.06);
+            --radius: 12px;
+            --shadow: 0 6px 18px rgba(15, 23, 36, 0.08);
+        }
+
+        /* Green theme */
+        [data-theme="green"] {
+            --bg: #f3fff6;
+            --fg: #07311a;
+            --muted: #14532d;
+            --accent: #16a34a;
+            --card: #e8fff0;
+            --glass: rgba(4, 120, 87, 0.06);
+            --shadow: 0 6px 18px rgba(6, 95, 70, 0.08);
+        }
+
+        /* Purple theme */
+        [data-theme="purple"] {
+            --bg: #fbf7ff;
+            --fg: #2b0036;
+            --muted: #6d0280;
+            --accent: #8b5cf6;
+            --card: #f6eefc;
+            --glass: rgba(139, 92, 246, 0.06);
+            --shadow: 0 6px 18px rgba(88, 47, 205, 0.08);
+        }
+
+        /* Dark theme */
+        [data-theme="dark"] {
+            --bg: #0b0f14;
+            --fg: #e6eef6;
+            --muted: #9ca3af;
+            --accent: #60a5fa;
+            --card: #0f1720;
+            --glass: rgba(255, 255, 255, 0.03);
+            --shadow: 0 8px 30px rgba(2, 6, 23, 0.6);
+        }
+
+        /* Respect users who prefer reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+
+            :root,
+            [data-theme] {
+                transition: none !important;
+            }
+        }
+
+        /* Smooth transitions for themeable properties */
+        html,
+        body,
+        .card,
+        .btn,
+        .theme-button {
+            transition: background-color 360ms ease, color 360ms ease, border-color 360ms ease, box-shadow 360ms ease;
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            background: linear-gradient(180deg, var(--bg), var(--bg));
+            color: var(--fg);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 48px 20px;
+            box-sizing: border-box;
+        }
+
+        .wrap {
+            width: 100%;
+            max-width: 980px;
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 28px;
+            align-items: start;
+        }
+
+        header h1 {
+            margin: 0 0 8px 0;
+            font-size: 1.6rem;
+            letter-spacing: -0.02em;
+        }
+
+        header p {
+            margin: 0 0 18px 0;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+        .card {
+            background: linear-gradient(180deg, var(--card), rgba(255, 255, 255, 0));
+            border-radius: var(--radius);
+            padding: 22px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--glass);
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        .theme-button {
+            appearance: none;
+            border: 1px solid transparent;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(0, 0, 0, 0.02));
+            color: var(--fg);
+            padding: 10px 14px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: none;
+            transition: transform 160ms ease;
+            user-select: none;
+        }
+
+        .theme-button:active {
+            transform: translateY(1px);
+        }
+
+        .theme-button:focus {
+            outline: 3px solid color-mix(in srgb, var(--accent) 18%, transparent);
+            outline-offset: 3px;
+        }
+
+        .theme-button .swatch {
+            width: 14px;
+            height: 14px;
+            border-radius: 4px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .theme-button[data-active="true"] {
+            box-shadow: 0 6px 20px color-mix(in srgb, var(--accent) 12%, transparent);
+            border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+            background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 6%, transparent), rgba(0, 0, 0, 0.02));
+        }
+
+        /* Right column layout */
+        .preview {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .sample {
+            border-radius: 10px;
+            padding: 16px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent);
+            border: 1px solid var(--glass);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid transparent;
+            background: var(--accent);
+            color: var(--bg);
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 6px 14px color-mix(in srgb, var(--accent) 20%, transparent);
+            text-decoration: none;
+        }
+
+        .muted {
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        /* small responsive adjustments */
+        @media (max-width:880px) {
+            .wrap {
+                grid-template-columns: 1fr;
+            }
+
+            .preview {
+                order: -1;
+            }
+        }
+
+        /* small visual helper swatches inside the right column */
+        .swatch-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .swatch-pill {
+            width: 46px;
+            height: 36px;
+            border-radius: 8px;
+            border: 1px solid var(--glass);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            color: var(--fg);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent);
+        }
+    </style>
+</head>
+<!-- If you this, comment "Bhupendra logi" in the comments. He is my friend who has visited a lot of places in the US. -->
+
+<body>
+    <main class="wrap">
+        <section class="card" aria-labelledby="title">
+            <header>
+                <h1 id="title">Multi-color Theme Switcher</h1>
+                <p class="muted">Click any theme button below to switch the site's color palette. The choice is saved in
+                    your browser.</p>
+            </header>
+
+            <div class="controls" role="tablist" aria-label="Theme switcher">
+                <button class="theme-button" data-theme="default" aria-pressed="false" type="button">
+                    <span class="swatch"
+                        style="background:linear-gradient(180deg,#fff,#f0f3ff); border-color:rgba(0,0,0,0.06)"></span>
+                    Default
+                </button>
+
+                <button class="theme-button" data-theme="green" aria-pressed="false" type="button">
+                    <span class="swatch" style="background:linear-gradient(180deg,#b7f5d1,#16a34a)"></span>
+                    Green
+                </button>
+
+                <button class="theme-button" data-theme="purple" aria-pressed="false" type="button">
+                    <span class="swatch" style="background:linear-gradient(180deg,#e9d5ff,#8b5cf6)"></span>
+                    Purple
+                </button>
+
+                <button class="theme-button" data-theme="dark" aria-pressed="false" type="button">
+                    <span class="swatch" style="background:linear-gradient(180deg,#111827,#0b1220)"></span>
+                    Dark
+                </button>
+            </div>
+
+            <div style="margin-top:18px;">
+                <div class="sample">
+                    <h2 style="margin:0 0 6px 0;">Sample content</h2>
+                    <p class="muted" style="margin:0 0 12px 0;">This area demonstrates how text, cards and buttons adapt
+                        to the selected theme.</p>
+                    <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+                        <a class="btn" href="#" role="button">Primary action</a>
+                        <a class="btn" href="#" role="button"
+                            style="background:transparent; color:var(--fg); border:1px solid var(--glass); box-shadow:none;">Secondary</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <aside class="preview">
+            <div class="card">
+                <h3 style="margin:0 0 8px 0;">Theme preview</h3>
+                <p class="muted" style="margin:0 0 12px 0;">Small swatches to show how primary and background colors
+                    will look.</p>
+
+                <div class="swatch-row" style="margin-bottom:10px;">
+                    <div class="swatch-pill" style="background:var(--bg); border:1px solid var(--glass);">Background
+                    </div>
+                    <div class="swatch-pill" style="background:var(--card);">Card</div>
+                    <div class="swatch-pill" style="background:var(--accent); color:var(--bg)">Accent</div>
+                </div>
+
+                <div class="muted" style="font-size:0.9rem;">Tip: your selection is stored locally. To reset, open
+                    DevTools → Application → Local Storage and remove "site-theme".</div>
+            </div>
+
+            <div class="card" style="padding:14px;">
+                <strong>Accessibility</strong>
+                <p class="muted" style="margin:8px 0 0 0;">Buttons are keyboard accessible and honor reduced motion
+                    preferences.</p>
+            </div>
+        </aside>
+    </main>
+
+    <script>
+        (function () {
+            const STORAGE_KEY = 'site-theme';
+            const buttons = Array.from(document.querySelectorAll('.theme-button'));
+
+            // Apply theme name: 'default' means no data-theme attribute (use :root variables)
+            function applyTheme(name, save = true) {
+                if (name === 'default' || !name) {
+                    document.documentElement.removeAttribute('data-theme');
+                } else {
+                    document.documentElement.setAttribute('data-theme', name);
+                }
+
+                // update button active states/aria
+                buttons.forEach(btn => {
+                    const t = btn.dataset.theme;
+                    const active = (t === (name || 'default'));
+                    btn.dataset.active = active ? 'true' : 'false';
+                    btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+                });
+
+                if (save) {
+                    try { localStorage.setItem(STORAGE_KEY, name || 'default'); } catch (e) { /* ignore */ }
+                }
+            }
+
+            // Load saved theme or prefer system dark (only if user hasn't chosen)
+            function init() {
+                let saved = null;
+                try { saved = localStorage.getItem(STORAGE_KEY); } catch (e) { /* ignore */ }
+
+                if (saved) {
+                    applyTheme(saved, false);
+                } else {
+                    // default behavior: use default/light unless system prefers dark -> treat as default (but could apply dark)
+                    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    if (prefersDark) {
+                        // you could choose to apply 'dark' automatically — here we'll keep "default" unless you want auto dark
+                        // applyTheme('dark', false);
+                    }
+                    applyTheme('default', false);
+                }
+            }
+
+            // Attach click handlers
+            buttons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    applyTheme(btn.dataset.theme);
+                });
+
+                // support Enter/Space activation for accessibility (buttons already do that, this is redundant but safe)
+                btn.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault(); btn.click();
+                    }
+                });
+            });
+
+            // initialize
+            init();
+
+            // Expose for debugging (optional)
+            window.themeSwitcher = { applyTheme };
+        })();
+    </script>
+</body>
+
+</html>
