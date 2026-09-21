@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>More on CSS Selectors</title>
+    <style>
+        /* .box:first-child{
+            background-color: pink;
+        } */
+        /* .box::first-line{
+            color:crimson;
+        } */
+         .boxes *{
+            color:blue;
+            border: 2px solid black;
+         }
+         p, a, .box, [data-color="primary"]{
+           padding-top: 45px;
+         }
+         .box:nth-child(odd){
+            background-color: pink;
+         }
+         .box:nth-last-child(2){
+            background-color:lightcoral;
+         }
+         /* importent step always use this project */
+         .boxes::before{
+            content: "Personalize Your View";
+              color: green;
+         }
+         .boxes::after{
+            content: "Customize Interface";
+            color:crimson;
+         }
+         ::selection{
+            color:yellow;
+            background-color: black;
+         }
+         .box::first-letter{
+            color:green;
+            font-size: 45px;
+         }
+         input::placeholder{
+            color:rgb(29, 29, 34);
+         }
+    </style>
+</head>
+<body>
+    <div class="boxes">
+        <div data-color="primary" class="box">I am first box</div>
+        <div class="box">Hey I am a box</div>
+        <div class="box">Hey I am a box</div>
+        <input type="text" placeholder="Type your name hare">
+    </div>
+</body>
+</html>
